@@ -20,7 +20,7 @@ public class Result<T> : Result
     /// The protected constructor forces the use of static methods to produce a result
     /// </summary>
     /// <param name="successful">Indicates success of the operation </param>
-    /// <param name="error">Indicates an error that occured</param>
+    /// <param name="errors">Indicates the errors that occured</param>
     /// <param name="value">The value, if available, or null if errored</param>
     protected internal Result(bool successful, ErrorCollection errors, T? value = default)
         : base(successful, errors)
@@ -28,6 +28,11 @@ public class Result<T> : Result
         mValue = value;
     }
 
+    /// <summary>
+    /// Allows a different function to be executed based on the state of the Result
+    /// </summary>
+    /// <param name="onValue">The function to execute if successful</param>
+    /// <param name="onError">The function to execute if failed</param>
     public void Switch(Action<T> onValue, Action<ErrorCollection> onError)
     {
         if (!Successful)
@@ -39,6 +44,13 @@ public class Result<T> : Result
         onValue(Value!);
     }
 
+    /// <summary>
+    /// Allows a different value to be returned based on the state of the Result
+    /// </summary>
+    /// <typeparam name="R">The type of value to return</typeparam>
+    /// <param name="success">the function to execute if the Result is in a success state</param>
+    /// <param name="failure">the function to execute if the Result is in a failure state</param>
+    /// <returns>Either a Value if successful or an collection of Errors if failed</returns>
     public R Match<R>(
                 Func<T, R> success,
                 Func<ErrorCollection, R> failure) =>
@@ -55,7 +67,7 @@ public class Result<T> : Result
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result
     /// </summary>
-    /// <param name="value">the value to return</param>
+    /// <param name="error">the error to return</param>
     public static implicit operator Result<T>(Error error)
     {
         return new(false, new(error));
@@ -63,7 +75,7 @@ public class Result<T> : Result
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result
     /// </summary>
-    /// <param name="value">the value to return</param>
+    /// <param name="errors">the errors to return</param>
     public static implicit operator Result<T>(ErrorCollection errors)
     {
         return new(false, errors);

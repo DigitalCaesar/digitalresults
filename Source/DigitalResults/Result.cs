@@ -20,7 +20,7 @@ public class Result
     /// A protected constructor forces the use of static methods to produce a result
     /// </summary>
     /// <param name="successful">Indicates success of the operation </param>
-    /// <param name="error">Indicates an error that occured</param>
+    /// <param name="errors">the errors that occured</param>
     /// <exception cref="InvalidResultStateException">thrown if the state is invalid, for example a successful operation that contains an error or a failed operation that contains no error</exception>
     protected internal Result(bool successful, ErrorCollection errors)
     {
@@ -55,7 +55,7 @@ public class Result
     /// <summary>
     /// Creates a failure result without a value to return
     /// </summary>
-    /// <param name="error">The error that occurred</param>
+    /// <param name="errors">The errors that occurred</param>
     /// <returns>A failure result</returns>
     public static Result Failure(ErrorCollection errors) => new(false, errors);
     /// <summary>
@@ -69,7 +69,7 @@ public class Result
     /// Creates a failure result with a value to return
     /// </summary>
     /// <typeparam name="T">the value type of the result to return</typeparam>
-    /// <param name="error">The error that occurred</param>
+    /// <param name="errors">The errors that occurred</param>
     /// <returns>A failure result</returns>
     public static Result<T> Failure<T>(ErrorCollection errors) => new(false, errors);
 
@@ -77,7 +77,7 @@ public class Result
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result
     /// </summary>
-    /// <param name="value">the value to return</param>
+    /// <param name="success">the value to return</param>
     public static implicit operator Result(bool success)
     {
         return new(success, new());
