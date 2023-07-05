@@ -47,6 +47,11 @@ public class Result
     /// <returns>A successful result</returns>
     public static Result<T> Success<T>(T value) => new(true, new(), value);
     /// <summary>
+    /// Creates a failure result without a value or error to return
+    /// </summary>
+    /// <returns>A failure result</returns>
+    public static Result Failure() => new(false, new(Error.None));
+    /// <summary>
     /// Creates a failure result without a value to return
     /// </summary>
     /// <param name="error">The error that occurred</param>

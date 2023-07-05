@@ -9,6 +9,51 @@ public class Error_Test
     private const string cDefaultErrorMessage = "Test Error Message";
 
     [Fact]
+    public void Error_None_Test()
+    {
+        // Arrange
+        Error TestObject;
+
+        // Act
+        TestObject = Error.None;
+
+        // Assert
+        TestObject.Code.Should().BeEmpty();
+        TestObject.Description.Should().BeEmpty();
+        TestObject.ErrorType.Should().Be(ErrorType.Warning);
+    }
+
+    [Fact]
+    public void Error_Null_Test()
+    {
+        // Arrange
+        Error TestObject;
+
+        // Act
+        TestObject = Error.NullValue;
+
+        // Assert
+        TestObject.Code.Should().Be("Error.NullValue");
+        TestObject.Description.Should().Be("The specified result value is null.");
+        TestObject.ErrorType.Should().Be(ErrorType.Warning);
+    }
+
+    [Fact]
+    public void Error_Validation_Test()
+    {
+        // Arrange
+        Error TestObject;
+
+        // Act
+        TestObject = Error.Validation;
+
+        // Assert
+        TestObject.Code.Should().Be("ValidationError");
+        TestObject.Description.Should().Be("A validation error occurred.");
+        TestObject.ErrorType.Should().Be(ErrorType.Warning);
+    }
+
+    [Fact]
     public void Constructor_Default_Test()
     {
         // Arrange
