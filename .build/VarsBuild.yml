@@ -1,0 +1,13 @@
+# VarsBuild.yml
+# Variables for Build pipelines to setup tools
+##############################################
+
+variables: 
+- name:  MonoVersion
+  value: 6_12_0
+- name:  NetCoreRunVersion
+  value: 6.0.x
+- name:  NetCoreSdkVersion
+  value: 6.0.x
+- name:  NugetVersion
+  value: 6.0.x
