@@ -28,7 +28,8 @@ A sample project is available to illustrate usage of features available in the p
 
 # Release 
 Release Pipelines are defined on Azure Devops.  Only main and release branch updates trigger releases.  Pre-Release distribution is triggered by release branch updates.  Production distribution is triggered by main branch updates.
-[TBA]
+Latest: [![DigitalCaesarFramework.Results package in DigitalCaesarPrivateFeed@Local feed in Azure Artifacts](https://feeds.dev.azure.com/DigitalCaesarLLC/_apis/public/Packaging/Feeds/DigitalCaesarPrivateFeed@Local/Packages/0c6e0d88-15b3-4cc8-a644-d5b6c6b68d45/Badge)](https://dev.azure.com/DigitalCaesarLLC/DigitalCaesarFramework/_artifacts/feed/DigitalCaesarPrivateFeed@Local/NuGet/DigitalCaesarFramework.Results?preferRelease=false)
+Stable: [![DigitalCaesarFramework.Results package in DigitalCaesarPrivateFeed feed in Azure Artifacts](https://feeds.dev.azure.com/DigitalCaesarLLC/_apis/public/Packaging/Feeds/DigitalCaesarPrivateFeed/Packages/0c6e0d88-15b3-4cc8-a644-d5b6c6b68d45/Badge)](https://dev.azure.com/DigitalCaesarLLC/DigitalResults/_artifacts/feed/DigitalCaesarPrivateFeed/NuGet/DigitalCaesarFramework.Results?preferRelease=true)
 
 # Contribute
 This project is currently private and not accepting contributions.
