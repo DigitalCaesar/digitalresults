@@ -39,5 +39,5 @@ There are currently no third party package dependencies.
 This implementation was inspired by tutorials from Milan Jovanovic and existing libraries ErrorOr and OneOf.  Each has an elements that I prefer and do not prefer.  The purpose of this library is to bring together the preferable elements and adapt for specific needs.  
 Inspiration derived from: 
 * Milan Jovanovic
-* ErrorOr: Amichai Mantinband : https://github.com/amantinband/error-or/blob/main/README.md
-* OneOf: Harry McIntyre:  https://github.com/mcintyre321/OneOf/blob/master/README.md
+* [ErrorOr](https://github.com/amantinband/error-or/blob/main/README.md): Amichai Mantinband
+* [OneOf](https://github.com/mcintyre321/OneOf/blob/master/README.md): Harry McIntyre
