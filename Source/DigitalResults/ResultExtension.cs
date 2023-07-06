@@ -24,7 +24,7 @@ public static class ResultExtension
     }
 
     /// <summary>
-    /// Maps a function to result using the value of a result
+    /// Allows for execution of a function only if the incoming result is successful
     /// </summary>
     /// <typeparam name="TIn">The type of the input value</typeparam>
     /// <typeparam name="TOut">The type of the return value</typeparam>

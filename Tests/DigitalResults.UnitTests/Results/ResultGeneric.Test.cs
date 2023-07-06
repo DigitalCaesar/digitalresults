@@ -65,7 +65,7 @@ public class ResultGeneric_Test
 
         // Assert
         TestObject.Successful.Should().BeFalse();
-        TestObject.Errors.Count().Should().Be(1);
+        TestObject.Errors.Count.Should().Be(1);
     }
     [Fact]
     public void Property_ImplicitErrorCollection_Test()
@@ -79,7 +79,7 @@ public class ResultGeneric_Test
 
         // Assert
         TestObject.Successful.Should().BeFalse();
-        TestObject.Errors.Count().Should().Be(1);
+        TestObject.Errors.Count.Should().Be(1);
     }
     #endregion
 
