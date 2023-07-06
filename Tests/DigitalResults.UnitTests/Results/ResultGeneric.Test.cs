@@ -39,7 +39,7 @@ public class ResultGeneric_Test
     }
 
     [Fact]
-    public void Property_Implicit_Test()
+    public void Property_ImplicitValue_Test()
     {
         // Arrange
         string TestValue = "Test";
@@ -53,9 +53,66 @@ public class ResultGeneric_Test
         TestObject.Errors.Should().BeEmpty();
         TestObject.Value.Should().Be(TestValue);
     }
+    [Fact]
+    public void Property_ImplicitError_Test()
+    {
+        // Arrange
+        Error TestValue = Error.NullValue;
+        Result<string> TestObject;
+
+        // Act
+        TestObject = TestValue;
+
+        // Assert
+        TestObject.Successful.Should().BeFalse();
+        TestObject.Errors.Count().Should().Be(1);
+    }
+    [Fact]
+    public void Property_ImplicitErrorCollection_Test()
+    {
+        // Arrange
+        ErrorCollection TestValue = new(Error.NullValue);
+        Result<string> TestObject;
+
+        // Act
+        TestObject = TestValue;
+
+        // Assert
+        TestObject.Successful.Should().BeFalse();
+        TestObject.Errors.Count().Should().Be(1);
+    }
     #endregion
 
     #region Methods
+    [Fact]
+    public void Method_SwitchSuccess_Test()
+    {
+        // Arrange
+        Result<string> TestObject = Result.Success("Test");
+        string result = "Did not run";
+
+        // Act
+        TestObject.Switch(
+            (success) => result = "Successful Test",
+            (failed) => result = "Failed Test");
+
+        // Assert
+        result.Should().Be("Successful Test");
+    }
+    [Fact]
+    public void Method_SwitchFailure_Test()
+    {
+        // Arrange
+        Result<string> TestObject = Result.Failure<string>(Error.NullValue);
+        string result = "Did not run";
+        // Act
+        TestObject.Switch(
+            (success) => result = "Successful Test",
+            (failed) => result = "Failed Test");
+
+        // Assert
+        result.Should().Be("Failed Test");
+    }
     [Fact]
     public void Method_MatchSuccess_Test()
     {

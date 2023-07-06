@@ -1,4 +1,6 @@
-﻿using DigitalCaesar.Results;
+﻿using System.Reflection;
+using DigitalCaesar.Results;
+using Newtonsoft.Json.Linq;
 
 namespace DigitalResults.UnitTests.Results;
 
@@ -15,9 +17,27 @@ public class Result_Test
         yield return new object[] { new ErrorCollection(new List<Error> { new Error("Test", "Test Error") }) };
         yield return new object[] { new ErrorCollection(new List<Error> { new Error("Test1", "First Test Error"), new Error("Test2", "Second Test Error") } ) };
     }
+    public static IEnumerable<object[]> GetConstructorErrors()
+    {
+        yield return new object[] { true, new ErrorCollection(new List<Error> { new Error("Test", "Test Error") }) };
+        yield return new object[] { false, new ErrorCollection() };
+    }
     #endregion 
 
     #region Constructors
+    //[Theory]
+    //[MemberData(nameof(GetConstructorErrors))]
+    //public void Constructor_Error_Test(bool successful, ErrorCollection errors)
+    //{
+    //    Type type = typeof(Result);
+
+    //    // Act
+    //    Action action = () => Activator.CreateInstance(typeof(Result), successful, errors);
+
+    //    // Assert
+    //    Assert.Throws<InvalidOperationException>(action);
+
+    //}
     [Fact]
     public void Constructor_Success_Test()
     {

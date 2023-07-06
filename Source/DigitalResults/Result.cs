@@ -1,4 +1,5 @@
-﻿using DigitalCaesar.Results.Exceptions;
+﻿using System.Diagnostics.CodeAnalysis;
+using DigitalCaesar.Results.Exceptions;
 
 namespace DigitalCaesar.Results;
 
@@ -15,18 +16,21 @@ public class Result
     /// Indicates an error that occured during the operation
     /// </summary>
     public ErrorCollection Errors { get; private set; }
-
+    
     /// <summary>
     /// A protected constructor forces the use of static methods to produce a result
     /// </summary>
     /// <param name="successful">Indicates success of the operation </param>
     /// <param name="errors">the errors that occured</param>
     /// <exception cref="InvalidResultStateException">thrown if the state is invalid, for example a successful operation that contains an error or a failed operation that contains no error</exception>
+    [ExcludeFromCodeCoverage]
     protected internal Result(bool successful, ErrorCollection errors)
     {
+        // This condition should not happen unless a new factory method is constructed incorrectly
         if (successful && !errors.IsEmpty)
             throw InvalidResultStateException.SuccessException;
 
+        // This condition should not happen unless a new factory method is constructed incorrectly
         if (!successful && errors.IsEmpty)
             throw InvalidResultStateException.FailureException;
 

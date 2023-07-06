@@ -32,7 +32,7 @@ public static class ResultExtension
     /// <param name="mappingFunc">The function to evaluate</param>
     /// <returns>A success result if no errors otherwise a failure result</returns>
     public static Result<TOut> Map<TIn, TOut>(
-        this Result<TIn> result, 
+        this Result<TIn> result,
         Func<TIn, TOut> mappingFunc)
     {
         return ((result.Value is not null) && (result.Successful))
