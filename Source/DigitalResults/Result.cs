@@ -8,6 +8,8 @@ namespace DigitalCaesar.Results;
 /// </summary>
 public class Result 
 {
+    private readonly ErrorCollection mErrors;
+
     /// <summary>
     /// Indicates success of the operation that returned the result
     /// </summary>
@@ -15,8 +17,10 @@ public class Result
     /// <summary>
     /// Indicates an error that occured during the operation
     /// </summary>
-    public ErrorCollection Errors { get; private set; }
-    
+    protected ErrorCollection Errors => !Successful
+        ? mErrors
+        : throw InvalidResultStateException.ValueException;
+
     /// <summary>
     /// A protected constructor forces the use of static methods to produce a result
     /// </summary>
@@ -35,7 +39,7 @@ public class Result
             throw InvalidResultStateException.FailureException;
 
         Successful = successful;
-        Errors = errors;
+        mErrors = errors;
     }
 
     /// <summary>

@@ -145,30 +145,30 @@ public class Result_Test
         // Assert
         TestObject.Successful.Should().BeFalse();
     }
-    [Fact]
-    public void Property_ErrorsWhenSuccess_Test()
-    {
-        // Arrange
-        Result TestObject;
+    //[Fact]
+    //public void Property_ErrorsWhenSuccess_Test()
+    //{
+    //    // Arrange
+    //    Result TestObject;
 
-        // Act
-        TestObject = Result.Success();
+    //    // Act
+    //    TestObject = Result.Success();
 
-        // Assert
-        TestObject.Errors.Should().BeEmpty();
-    }
-    [Fact]
-    public void Property_ErrorsWhenFailed_Test()
-    {
-        // Arrange
-        Result TestObject;
+    //    // Assert
+    //    TestObject.Errors.Should().BeEmpty();
+    //}
+    //[Fact]
+    //public void Property_ErrorsWhenFailed_Test()
+    //{
+    //    // Arrange
+    //    Result TestObject;
 
-        // Act
-        TestObject = Result.Failure();
+    //    // Act
+    //    TestObject = Result.Failure();
 
-        // Assert
-        TestObject.Errors.Should().NotBeEmpty();
-    }
+    //    // Assert
+    //    TestObject.Errors.Should().NotBeEmpty();
+    //}
     [Fact]
     public void Property_Implicit_Test()
     {
@@ -180,7 +180,6 @@ public class Result_Test
 
         // Assert
         TestObject.Successful.Should().BeTrue();
-        TestObject.Errors.Should().BeEmpty();
     }
     #endregion
 

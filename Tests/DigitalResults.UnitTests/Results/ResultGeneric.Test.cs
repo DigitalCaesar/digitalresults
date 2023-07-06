@@ -22,21 +22,6 @@ public class ResultGeneric_Test
     #endregion
 
     #region Properties
-    [Theory]
-    [InlineData("")]
-    [InlineData("TestValue")]
-    public void Property_Value_Test(string testValue)
-    {
-        // Arrange
-        Result<string> TestObject;
-
-        // Act
-        TestObject = Result.Success(testValue);
-
-        // Assert
-        TestObject.Value.Should().NotBeNull();
-        TestObject.Value.Should().Be(testValue);
-    }
 
     [Fact]
     public void Property_ImplicitValue_Test()
@@ -50,8 +35,6 @@ public class ResultGeneric_Test
 
         // Assert
         TestObject.Successful.Should().BeTrue();
-        TestObject.Errors.Should().BeEmpty();
-        TestObject.Value.Should().Be(TestValue);
     }
     [Fact]
     public void Property_ImplicitError_Test()
@@ -65,7 +48,6 @@ public class ResultGeneric_Test
 
         // Assert
         TestObject.Successful.Should().BeFalse();
-        TestObject.Errors.Count.Should().Be(1);
     }
     [Fact]
     public void Property_ImplicitErrorCollection_Test()
@@ -79,7 +61,6 @@ public class ResultGeneric_Test
 
         // Assert
         TestObject.Successful.Should().BeFalse();
-        TestObject.Errors.Count.Should().Be(1);
     }
     #endregion
 

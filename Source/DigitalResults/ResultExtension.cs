@@ -17,10 +17,10 @@ public static class ResultExtension
     {
         if (!result.Successful)
             return result;
-        
-        return ((result.Value is not null) && predicate(result.Value))
-            ? result
-            : Result.Failure<T>(error);
+
+        return result.Match(
+            s => predicate(s) ? result : Result.Failure<T>(error),
+            f => Result.Failure<T>(error));
     }
 
     /// <summary>
@@ -35,8 +35,8 @@ public static class ResultExtension
         this Result<TIn> result,
         Func<TIn, TOut> mappingFunc)
     {
-        return ((result.Value is not null) && (result.Successful))
-            ? Result.Success(mappingFunc(result.Value))
-            : Result.Failure<TOut>(result.Errors);
+        return result.Match(
+            s => Result.Success(mappingFunc(s)),
+            f => Result.Failure<TOut>(f));
     }
 }
