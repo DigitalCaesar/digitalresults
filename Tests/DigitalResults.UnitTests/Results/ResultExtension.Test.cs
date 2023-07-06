@@ -31,6 +31,18 @@ public class ResultExtension_Test
         // Assert
         result.Successful.Should().BeFalse();
     }
+    [Fact]
+    public void Method_Ensure_AlreadyFailed_Test()
+    {
+        // Arrange
+        Result<string> TestObject = Error.NullValue;
+
+        // Act
+        var result = TestObject.Ensure(e => e.Length == 10, Error.Validation);
+
+        // Assert
+        result.Successful.Should().BeFalse();
+    }
 
     [Fact]
     public void Method_Map_Successful_Test()
