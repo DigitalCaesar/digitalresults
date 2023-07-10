@@ -50,6 +50,7 @@
     <PackageLicenseFile>licenses\License.txt</PackageLicenseFile>
     <PackageIcon>images\icon.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Label="Debug All" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -74,6 +75,14 @@
   <ItemGroup>
     <None Include="Properties\License.txt" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="licenses" />
     <None Include="Properties\icon.png" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="images" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Update="Properties\Readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 
