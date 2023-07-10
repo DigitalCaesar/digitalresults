@@ -178,7 +178,11 @@ Task("Pack")
             projectFileName, 
             new DotNetPackSettings {
                 Configuration = configuration, 
-                OutputDirectory = $"{PACKAGE_OUTPUT_DIR}"
+                NoBuild = true,
+                NoRestore = true,
+                OutputDirectory = $"{PACKAGE_OUTPUT_DIR}",
+                Verbosity = DotNetVerbosity.Minimal, 
+                VersionSuffix = versionSuffix
             }
         );
     });
