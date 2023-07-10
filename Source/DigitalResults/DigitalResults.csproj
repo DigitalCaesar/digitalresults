@@ -75,15 +75,7 @@
   <ItemGroup>
     <None Include="Properties\License.txt" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="licenses" />
     <None Include="Properties\icon.png" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="images" />
+    <None Include="Properties\Readme.md" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="\" />
   </ItemGroup>
-
-
-  <ItemGroup>
-    <None Update="Properties\Readme.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
 
 </Project>
