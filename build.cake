@@ -47,9 +47,25 @@ switch(branchName) {
         break;
 }
 
+Task("Setup")
+  .Does(() => {
+    Information($"Target is        {target}");
+    Information($"Branch Name is   {branchName}");
+    Information($"Solution is      {solution}");
+    Information($"Configuration is {configuration}");
+    Information($"Version is       {version}{versionSuffix}");
+    Information($"Build Id is      {buildId}");
+  });
+
 Task("Clean")
   .Does(() => {
-    DotNetClean(solution);
+    DotNetClean(
+        solution,
+        new DotNetCleanSettings
+        {
+            Configuration = configuration
+        }
+    );
   });
 
 Task("Restore")
@@ -204,6 +220,7 @@ Task("Publish-Nuget")
     });
 
 Task("Default")
+    .IsDependentOn("Setup")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
