@@ -182,7 +182,14 @@ Task("Pack")
                 NoRestore = true,
                 OutputDirectory = $"{PACKAGE_OUTPUT_DIR}",
                 Verbosity = DotNetVerbosity.Minimal, 
-                VersionSuffix = versionSuffix
+                VersionSuffix = versionSuffix,
+                MSBuildSettings = new DotNetMSBuildSettings {
+                    Verbosity = DotNetVerbosity.Minimal, 
+                    ContinuousIntegrationBuild = true,
+                    Version = version, 
+                    VersionSuffix = versionSuffix, 
+                    ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
+                }
             }
         );
     });
