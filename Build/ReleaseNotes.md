@@ -1,12 +1,11 @@
 # Summary
-Initial test release
+Update to Result
 
 # New Features
-- Errors:  Allows a method to return a result even if a failure occurs, sharing the error information without breaking.  Useful for threads and capturing what went wrong.
-- Results: Allows for methods to handle null when returning values
+- Limit Value and Errors visibility
 
 # Bug Fixes
 - None
 
 # Comments
-This is the initial release to provide base elements for model libraries
+The Value and Errors properties were previously publicly visible and accessible.  This could lead to issues if accessing the properties directly.  The behavior was changed to force access through the Match method which will return one or the other as appropriate.

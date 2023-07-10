@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalResults", "DigitalResults\DigitalResults.csproj", "{E7ACA108-3E0D-4C4D-9B67-01BEAF653032}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalResults", "DigitalResults\DigitalResults.csproj", "{E7ACA108-3E0D-4C4D-9B67-01BEAF653032}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solution Items", "{A1C713D7-0E81-4E49-A459-6B51BA28154C}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		..\.gitattributes = ..\.gitattributes
 		..\.gitignore = ..\.gitignore
 		..\build-pipelines.yml = ..\build-pipelines.yml
+		..\build.cake = ..\build.cake
+		..\cake-build-pipeline.yml = ..\cake-build-pipeline.yml
 		..\LICENSE.txt = ..\LICENSE.txt
 		nuget.config = nuget.config
 		..\nugetreadme.txt = ..\nugetreadme.txt
@@ -20,11 +22,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Tests", ".Tests", "{18B73A72-11D0-4DC6-9C61-C1760FBC919F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalResults.UnitTests", "..\Tests\DigitalResults.UnitTests\DigitalResults.UnitTests.csproj", "{1C69A7BC-FD12-465B-918E-3829BFEEF04A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalResults.UnitTests", "..\Tests\DigitalResults.UnitTests\DigitalResults.UnitTests.csproj", "{1C69A7BC-FD12-465B-918E-3829BFEEF04A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Samples", ".Samples", "{E8B9385F-45CA-444C-95AC-A916E8385114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalResults.Sample", "..\Samples\DigitalResults.Sample\DigitalResults.Sample.csproj", "{FA9087D5-D2DD-4AA0-BE25-8990348CA9AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalResults.Sample", "..\Samples\DigitalResults.Sample\DigitalResults.Sample.csproj", "{FA9087D5-D2DD-4AA0-BE25-8990348CA9AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

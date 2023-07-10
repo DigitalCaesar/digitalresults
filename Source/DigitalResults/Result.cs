@@ -8,6 +8,8 @@ namespace DigitalCaesar.Results;
 /// </summary>
 public class Result 
 {
+    private readonly ErrorCollection mErrors;
+
     /// <summary>
     /// Indicates success of the operation that returned the result
     /// </summary>
@@ -15,8 +17,10 @@ public class Result
     /// <summary>
     /// Indicates an error that occured during the operation
     /// </summary>
-    public ErrorCollection Errors { get; private set; }
-    
+    protected ErrorCollection Errors => !Successful
+        ? mErrors
+        : throw InvalidResultStateException.ValueException;
+
     /// <summary>
     /// A protected constructor forces the use of static methods to produce a result
     /// </summary>
@@ -35,7 +39,7 @@ public class Result
             throw InvalidResultStateException.FailureException;
 
         Successful = successful;
-        Errors = errors;
+        mErrors = errors;
     }
 
     /// <summary>
@@ -54,7 +58,7 @@ public class Result
     /// Creates a failure result without a value or error to return
     /// </summary>
     /// <returns>A failure result</returns>
-    public static Result Failure() => new(false, new(Error.None));
+    public static Result Failure() => new(false, new(Error.Unknown));
     /// <summary>
     /// Creates a failure result without a value to return
     /// </summary>
@@ -82,6 +86,34 @@ public class Result
     /// <returns>A failure result</returns>
     public static Result<T> Failure<T>(ErrorCollection errors) => new(false, errors);
 
+
+    /// <summary>
+    /// Allows a different function to be executed based on the state of the Result
+    /// </summary>
+    /// <param name="onSuccess">The function to execute if successful</param>
+    /// <param name="onError">The function to execute if failed</param>
+    public void Switch(Action onSuccess, Action<ErrorCollection> onError)
+    {
+        if (!Successful)
+        {
+            onError(Errors);
+            return;
+        }
+
+        onSuccess();
+    }
+
+    /// <summary>
+    /// Allows a different value to be returned based on the state of the Result
+    /// </summary>
+    /// <typeparam name="R">The type of value to return</typeparam>
+    /// <param name="success">the function to execute if the Result is in a success state</param>
+    /// <param name="failure">the function to execute if the Result is in a failure state</param>
+    /// <returns>Either a Value if successful or an collection of Errors if failed</returns>
+    public R Match<R>(
+                Func<R> success,
+                Func<ErrorCollection, R> failure) =>
+            Successful ? success() : failure(Errors);
 
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result

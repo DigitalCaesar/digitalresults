@@ -22,6 +22,11 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+# Cake
+tools/
+
+# Test Coveage
+coverage/
 
 
 # Visual Studio 2015 cache/options directory
@@ -270,3 +275,4 @@ __pycache__/
 *.pyc
 **/*.snk
 **/*.pfx
+/coverage/DigitalResults.UnitTests.cobertura.xml

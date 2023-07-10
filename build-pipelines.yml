@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-    - main
+    - master
     - release
     - develop
   paths:
@@ -61,7 +61,7 @@ variables:
       value: '-rc'
     - name:  PackagePublish
       value: true
-  - ${{ if eq(variables['build.SourceBranchName'], 'main') }}:
+  - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
     - name:  BuildConfiguration
       value: 'Release'
     - name: BuildPlatform
@@ -89,12 +89,13 @@ jobs:
       NetCoreSdkVersion: $(NetCoreSdkVersion)
       NetCoreRunVersion: $(NetCoreRunVersion)
       NugetVersion:      $(NugetVersion)
+      NugetConfigDirectory: './nuget.config'
       BuildSolution:     $(BuildSolution)
       Restore: true
       UseMaui: false        
   # Get Signing Certificate
   # Signature required for test package in Release mode.  Disable by running in Debug/Mock, or otherwise amend project to ignore signature file unless provided.  
-  - ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/main'),eq(variables['Build.SourceBranch'], 'refs/heads/release')) }}:
+  - ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/release')) }}:
     - template:  Package/JobSigning.yml@templates
       parameters: 
         CertificateName: 'Digital Caesar LLC.snk'

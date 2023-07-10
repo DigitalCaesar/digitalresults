@@ -12,9 +12,9 @@ public class Result<T> : Result
     /// <summary>
     /// The value of a successful result
     /// </summary>
-    public T? Value => Successful
+    protected T? Value => Successful
         ? mValue!
-        : default; //throw InvalidResultStateException.ValueException; //Blocking null is helpful, but results in an exception if just checking for a value
+        : throw InvalidResultStateException.ValueException;
 
     /// <summary>
     /// The protected constructor forces the use of static methods to produce a result

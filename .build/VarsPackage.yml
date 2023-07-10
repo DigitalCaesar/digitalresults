@@ -4,7 +4,7 @@
 
 variables: 
 - name: MajorVersionNumber
-  value: 0
+  value: 1
 - name: MinorVersionNumber
   value: 0
 - name: PatchVersionNumber

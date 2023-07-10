@@ -17,14 +17,14 @@ public static class ResultExtension
     {
         if (!result.Successful)
             return result;
-        
-        return ((result.Value is not null) && predicate(result.Value))
-            ? result
-            : Result.Failure<T>(error);
+
+        return result.Match(
+            s => predicate(s) ? result : Result.Failure<T>(error),
+            f => Result.Failure<T>(error));
     }
 
     /// <summary>
-    /// Allows for execution of a function only if the incoming result is successful
+    /// Allows for execution of a function only if the incoming result is successful and returns a different type
     /// </summary>
     /// <typeparam name="TIn">The type of the input value</typeparam>
     /// <typeparam name="TOut">The type of the return value</typeparam>
@@ -35,8 +35,8 @@ public static class ResultExtension
         this Result<TIn> result,
         Func<TIn, TOut> mappingFunc)
     {
-        return ((result.Value is not null) && (result.Successful))
-            ? Result.Success(mappingFunc(result.Value))
-            : Result.Failure<TOut>(result.Errors);
+        return result.Match(
+            s => Result.Success(mappingFunc(s)),
+            f => Result.Failure<TOut>(f));
     }
 }

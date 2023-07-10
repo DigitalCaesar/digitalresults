@@ -22,6 +22,7 @@
 
   <PropertyGroup>
     <CopyrightStartYear>2022</CopyrightStartYear>
+    <RootNamespace>DigitalCaesar.Results</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition="$([System.DateTime]::Now.ToString('yyyy')) == $(CopyrightStartYear)">
     <CopyrightYears>$(CopyrightStartYear)</CopyrightYears>
