@@ -25,7 +25,7 @@ if(BuildSystem.IsRunningOnAzurePipelines)
 }
 
 switch(branchName) {
-    case "master":
+    case "main":
         IsRelease = true;
         configuration = "Release";
         versionSuffix = "";
