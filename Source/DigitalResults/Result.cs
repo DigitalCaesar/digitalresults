@@ -6,7 +6,7 @@ namespace DigitalCaesar.Results;
 /// <summary>
 /// Allows a method to return a result indicating success or failure where the operation may produce an error and or a value
 /// </summary>
-public class Result 
+public record struct Result : IResult
 {
     private readonly ErrorCollection mErrors;
 
@@ -17,7 +17,7 @@ public class Result
     /// <summary>
     /// Indicates an error that occured during the operation
     /// </summary>
-    protected ErrorCollection Errors => !Successful
+    internal ErrorCollection Errors => !Successful
         ? mErrors
         : throw InvalidResultStateException.ValueException;
 
@@ -28,7 +28,7 @@ public class Result
     /// <param name="errors">the errors that occured</param>
     /// <exception cref="InvalidResultStateException">thrown if the state is invalid, for example a successful operation that contains an error or a failed operation that contains no error</exception>
     [ExcludeFromCodeCoverage]
-    protected internal Result(bool successful, ErrorCollection errors)
+    internal Result(bool successful, ErrorCollection errors)
     {
         // This condition should not happen unless a new factory method is constructed incorrectly
         if (successful && !errors.IsEmpty)

@@ -10,7 +10,7 @@ public class PrintSample
     }
     public static void PrintResult<T>(TestCase testCase, Result result)
     {
-        PrintResult(testCase, result as Result);
+        PrintResult(testCase, result);
         string Message = result.Match(
             () => GetSuccessMessage(),
             errors => GetFailureMessage(errors));
@@ -18,7 +18,7 @@ public class PrintSample
     }
     public static void PrintResult<T>(TestCase testCase, Result<T> result)
     {
-        PrintResult(testCase, result as Result);
+        PrintResult(testCase, (Result)result);
         string Message = result.Match(
             value => GetSuccessMessage(value),
             errors => GetFailureMessage(errors));
@@ -26,14 +26,14 @@ public class PrintSample
     }
     public static void PrintActionResult(TestCase testCase, Result result)
     {
-        PrintResult(testCase, result as Result);
+        PrintResult(testCase, result);
         result.Switch(
             () => PrintSuccessMessage(),
             (errors) => PrintFailureMessages(errors));
     }
     public static void PrintActionResult<T>(TestCase testCase, Result<T> result)
     {
-        PrintResult(testCase, result as Result);
+        PrintResult(testCase, (Result)result);
         result.Switch(
             (value) => PrintSuccessMessage(value),
             (errors) => PrintFailureMessages(errors));

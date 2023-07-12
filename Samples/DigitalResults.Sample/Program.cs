@@ -1,29 +1,37 @@
-﻿// See https://aka.ms/new-console-template for more information
-using DigitalCaesar.Results;
+﻿using DigitalCaesar.Results;
 using DigitalCaesar.Results.Sample;
 
 
 // Without a match, you are required to test the outcome before using the value?
+Console.WriteLine("Simple Result test with no value");
+Console.WriteLine("--------------------------------------------------");
 Result SimpleResult;
+Console.WriteLine("Test Success");
 SimpleResult = SampleObject.GetSimpleResult(TestCase.DoSomethingThatWorks);
 PrintSample.PrintResult(TestCase.DoSomethingThatWorks, SimpleResult);
-
+Console.WriteLine("Test Failure");
 SimpleResult = SampleObject.GetSimpleResult(TestCase.DoSomethingThatFails);
 PrintSample.PrintResult(TestCase.DoSomethingThatFails, SimpleResult);
 
 // INT test
+Console.WriteLine("Simple Result test with int value");
+Console.WriteLine("--------------------------------------------------");
 Result<int> IntResult;
+Console.WriteLine("Test Success");
 IntResult = SampleObject.GetIntResult(TestCase.DoSomethingThatWorks);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatWorks, IntResult);
-
+Console.WriteLine("Test Failure");
 IntResult = SampleObject.GetIntResult(TestCase.DoSomethingThatFails);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatFails, IntResult);
 
 // STRING test
+Console.WriteLine("Simple Result test with string value");
+Console.WriteLine("--------------------------------------------------");
 Result<string> StringResult;
+Console.WriteLine("Test Success");
 StringResult = SampleObject.GetStringResult(TestCase.DoSomethingThatWorks);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatWorks, StringResult);
-
+Console.WriteLine("Test Failure");
 StringResult = SampleObject.GetStringResult(TestCase.DoSomethingThatFails);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatFails, StringResult);
 
@@ -54,13 +62,6 @@ void TraditionalResult(int sum, int count)
         Console.WriteLine("Failed to calculate the average due to {0}", ex.Message);
     }
 }
-
-
-
-
-
-
-
 
 // MatchedResult Example
 Console.WriteLine("SwitchedResult Example");

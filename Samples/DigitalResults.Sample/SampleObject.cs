@@ -13,9 +13,9 @@ public class SampleObject
     public static Result<int> GetIntResult(TestCase doSomething)
     {
         if (doSomething == TestCase.DoSomethingThatWorks)
-            return Result<int>.Success(10);
+            return Result.Success(10);
 
-        return Result<int>.Failure<int>(Errors.FailedIntegerResult);
+        return Result.Failure<int>(Errors.FailedIntegerResult);
     }
     public static Result<string> GetStringResult(TestCase doSomething)
     {
