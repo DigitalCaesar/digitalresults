@@ -60,11 +60,24 @@ public record struct Result : IResult
     /// <returns>A failure result</returns>
     public static Result Failure() => new(false, new(Error.Unknown));
     /// <summary>
+    /// Creates a failure result without a value or error to return
+    /// </summary>
+    /// <typeparam name="T">the value type of the result to return</typeparam>
+    /// <returns>A failure result</returns>
+    public static Result<T> Failure<T>() => new(false, new(Error.Unknown));
+    /// <summary>
     /// Creates a failure result without a value to return
     /// </summary>
     /// <param name="error">The error that occurred</param>
     /// <returns>A failure result</returns>
     public static Result Failure(Error error) => new(false, new(error));
+    /// <summary>
+    /// Creates a failure result with a value to return
+    /// </summary>
+    /// <typeparam name="T">the value type of the result to return</typeparam>
+    /// <param name="error">The error that occurred</param>
+    /// <returns>A failure result</returns>
+    public static Result<T> Failure<T>(Error error) => new(false, new(error));
     /// <summary>
     /// Creates a failure result without a value to return
     /// </summary>
@@ -75,28 +88,21 @@ public record struct Result : IResult
     /// Creates a failure result with a value to return
     /// </summary>
     /// <typeparam name="T">the value type of the result to return</typeparam>
-    /// <param name="error">The error that occurred</param>
-    /// <returns>A failure result</returns>
-    public static Result<T> Failure<T>(Error error) => new(false, new(error));
-    /// <summary>
-    /// Creates a failure result with a value to return
-    /// </summary>
-    /// <typeparam name="T">the value type of the result to return</typeparam>
     /// <param name="errors">The errors that occurred</param>
     /// <returns>A failure result</returns>
     public static Result<T> Failure<T>(ErrorCollection errors) => new(false, errors);
 
 
     /// <summary>
-    /// Allows a different function to be executed based on the state of the Result
+    /// Switches between Actions dependent on the state of the Result
     /// </summary>
-    /// <param name="onSuccess">The function to execute if successful</param>
-    /// <param name="onError">The function to execute if failed</param>
-    public void Switch(Action onSuccess, Action<ErrorCollection> onError)
+    /// <param name="onSuccess">the Action to execute if the Result is in a success state</param>
+    /// <param name="onFailure">the Action to execute if the Result is in a failure state</param>
+    public void Switch(Action onSuccess, Action<ErrorCollection> onFailure)
     {
         if (!Successful)
         {
-            onError(Errors);
+            onFailure(Errors);
             return;
         }
 
@@ -104,16 +110,16 @@ public record struct Result : IResult
     }
 
     /// <summary>
-    /// Allows a different value to be returned based on the state of the Result
+    /// Matches the appropriate response based on the state of the Result
     /// </summary>
     /// <typeparam name="R">The type of value to return</typeparam>
-    /// <param name="success">the function to execute if the Result is in a success state</param>
-    /// <param name="failure">the function to execute if the Result is in a failure state</param>
+    /// <param name="onSuccess">the function to execute if the Result is in a success state</param>
+    /// <param name="onFailure">the function to execute if the Result is in a failure state</param>
     /// <returns>Either a Value if successful or an collection of Errors if failed</returns>
     public R Match<R>(
-                Func<R> success,
-                Func<ErrorCollection, R> failure) =>
-            Successful ? success() : failure(Errors);
+                Func<R> onSuccess,
+                Func<ErrorCollection, R> onFailure) =>
+            Successful ? onSuccess() : onFailure(Errors);
 
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result

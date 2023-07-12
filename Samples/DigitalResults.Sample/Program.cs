@@ -54,7 +54,7 @@ void TraditionalResult(int sum, int count)
 {
     try
     {
-        var result = GetAverage(sum, count);
+        decimal result = GetAverage(sum, count);
         Console.WriteLine($"The average is {result}");
     }
     catch (Exception ex)
@@ -86,7 +86,7 @@ Result<decimal> GetAverageAsResult(int sum, int count)
 void MatchedResult(int sum, int count)
 {
     var result = GetAverageAsResult(sum, count);
-    var message = result.Match(
+    string message = result.Match(
         success => $"The average is {success}",
         failure => $"Failed to calculate the average due to {failure[0].Description}."
     );
@@ -105,22 +105,6 @@ SwitchedResult(0, 0);  // Error:DivideByZeroException
 SwitchedResult(10, 0); // Error:DivideByZeroException
 
 
-Result<decimal> GetValidatedAverageAsResult(int sum, int count)
-{
-    if (count <= 0)
-        return new Error("Bad Count", $"The count '{count}' must be greater than 0");
-    if (count > 100)
-        return new Error("Bad Count", $"The count '{count}' must be less than 100");
-
-    try
-    {
-        return (decimal)sum / (decimal)count;
-    }
-    catch (Exception ex)
-    {
-        return ex;
-    }
-}
 void SwitchedResult(int sum, int count)
 {
     var result = GetAverageAsResult(sum, count);

@@ -46,7 +46,7 @@ public class PrintSample
     public static string GetSuccessMessage<T>(T? value)
     {
         if(value is not null)
-            return $"Successfully computed value '{value.ToString()}'";
+            return $"Successfully computed value '{value}'";
         return $"Successfully completed operation, but value is null.";
     }
     public static string GetFailureMessage(ErrorCollection errors)
