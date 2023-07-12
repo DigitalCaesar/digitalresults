@@ -4,10 +4,10 @@
 
 string version = EnvironmentVariable("VersionNumber", "1.0.0");
 string solution = Argument("solution", "./Source/DigitalResults.sln");
+string branchName = Argument("branchName", "local");
 
 var target = Argument("target", "Default");
 
-string branchName = "local";
 string buildId = "0";
 bool IsRelease = false;
 string versionSuffix = "-local";
@@ -92,18 +92,22 @@ Task("Build")
         GetFiles("./**/**/*.csproj").ToList().ForEach(project => {
             string projectFileName = project.ToString();
             Information($"Building {projectFileName} in {branchName} with version {version}{versionSuffix} and build {buildId}.");
+            DotNetMSBuildSettings buildSettings = new DotNetMSBuildSettings {
+                Verbosity = DotNetVerbosity.Minimal, 
+                ContinuousIntegrationBuild = true,
+                Version = version, 
+                ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
+            };
+            
+            if(branchName != "main")
+                buildSettings.VersionSuffix = versionSuffix;
+                        
             DotNetBuild(
                 projectFileName, 
                 new DotNetBuildSettings {
                     Configuration = configuration,
                     NoRestore = true,
-                    MSBuildSettings = new DotNetMSBuildSettings {
-                        Verbosity = DotNetVerbosity.Minimal, 
-                        ContinuousIntegrationBuild = true,
-                        Version = version, 
-                        VersionSuffix = versionSuffix, 
-                        ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
-                    }
+                    MSBuildSettings = buildSettings
                 }
             );
         });
@@ -190,6 +194,16 @@ Task("Pack")
     GetFiles("./**/**/*.csproj").ToList().ForEach(project => {
         var projectFileName = project.ToString();
         Information($"Building {projectFileName}");
+        
+        DotNetMSBuildSettings buildSettings = new DotNetMSBuildSettings {
+            Verbosity = DotNetVerbosity.Minimal, 
+            ContinuousIntegrationBuild = true,
+            Version = version, 
+            ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
+        };
+        if(branchName != "main")
+            buildSettings.VersionSuffix = versionSuffix;
+
         DotNetPack(
             projectFileName, 
             new DotNetPackSettings {
@@ -199,13 +213,7 @@ Task("Pack")
                 OutputDirectory = $"{PACKAGE_OUTPUT_DIR}",
                 Verbosity = DotNetVerbosity.Minimal, 
                 VersionSuffix = versionSuffix,
-                MSBuildSettings = new DotNetMSBuildSettings {
-                    Verbosity = DotNetVerbosity.Minimal, 
-                    ContinuousIntegrationBuild = true,
-                    Version = version, 
-                    VersionSuffix = versionSuffix, 
-                    ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
-                }
+                MSBuildSettings = buildSettings
             }
         );
     });
