@@ -1,0 +1,57 @@
+#####################################################################
+# DigitalResult CI Pipeline using Cake
+# https://aka.ms/yaml
+#####################################################################
+
+trigger:
+  branches:
+    include:
+    - main
+    - release
+    - develop
+  paths:
+    #include: 
+    #- Source/
+    exclude: 
+    - README.md
+    - images/*
+    - Build/*
+
+resources:
+  repositories:
+  - repository: templates
+    type: git
+    name: BuildTemplates/BuildTemplates
+
+pool:
+  name: default
+  demands: agent.os -equals Windows_NT
+  
+variables:
+  - template: .build/VarsPackage.yml
+  - template: .build/VarsBuild.yml 
+  
+steps:
+  # Setup NetCore SDK
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      packageType: sdk
+      version: 7.0.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  # Setup Nuget
+  - task: NuGetToolInstaller@1
+    displayName: 'Install Nuget'
+    inputs:
+      versionSpec: 6.0.x
+  # Get Signing Certificate
+  # Signature required for test package in Release mode.  Disable by running in Debug/Mock, or otherwise amend project to ignore signature file unless provided.  
+  - ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/release')) }}:
+    - template:  Package/JobSigning.yml@templates
+      parameters: 
+        CertificateName: 'Digital Caesar LLC.snk'
+  - script: |
+      dotnet new tool-manifest
+      dotnet tool install Cake.Tool
+      dotnet tool restore
+      dotnet tool run dotnet-cake ./build.cake

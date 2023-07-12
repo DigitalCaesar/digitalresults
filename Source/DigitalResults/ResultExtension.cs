@@ -24,7 +24,7 @@ public static class ResultExtension
     }
 
     /// <summary>
-    /// Allows for execution of a function only if the incoming result is successful
+    /// Allows for execution of a function only if the incoming result is successful and returns a different type
     /// </summary>
     /// <typeparam name="TIn">The type of the input value</typeparam>
     /// <typeparam name="TOut">The type of the return value</typeparam>

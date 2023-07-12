@@ -89,6 +89,7 @@ jobs:
       NetCoreSdkVersion: $(NetCoreSdkVersion)
       NetCoreRunVersion: $(NetCoreRunVersion)
       NugetVersion:      $(NugetVersion)
+      NugetConfigDirectory: './nuget.config'
       BuildSolution:     $(BuildSolution)
       Restore: true
       UseMaui: false        

@@ -183,4 +183,63 @@ public class Result_Test
     }
     #endregion
 
+    #region Methods
+    [Fact]
+    public void Method_SwitchSuccess_Test()
+    {
+        // Arrange
+        Result TestObject = Result.Success();
+        string result = "Did not run";
+
+        // Act
+        TestObject.Switch(
+            () => result = "Successful Test",
+            (failed) => result = "Failed Test");
+
+        // Assert
+        result.Should().Be("Successful Test");
+    }
+    [Fact]
+    public void Method_SwitchFailure_Test()
+    {
+        // Arrange
+        Result TestObject = Result.Failure(Error.NullValue);
+        string result = "Did not run";
+        // Act
+        TestObject.Switch(
+            () => result = "Successful Test",
+            (failed) => result = "Failed Test");
+
+        // Assert
+        result.Should().Be("Failed Test");
+    }
+    [Fact]
+    public void Method_MatchSuccess_Test()
+    {
+        // Arrange
+        Result TestObject = Result.Success();
+
+        // Act
+        string result = TestObject.Match(
+            () => "Successful Test",
+            failed => "Failed Test");
+
+        // Assert
+        result.Should().Be("Successful Test");
+    }
+    [Fact]
+    public void Method_MatchFailure_Test()
+    {
+        // Arrange
+        Result TestObject = Result.Failure(Error.NullValue);
+
+        // Act
+        string result = TestObject.Match(
+            () => "Successful Test",
+            failed => "Failed Test");
+
+        // Assert
+        result.Should().Be("Failed Test");
+    }
+    #endregion
 }

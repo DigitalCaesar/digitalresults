@@ -6,6 +6,10 @@
 public class Error
 {
     /// <summary>
+    /// A error occurred but was not declared and is therefore unknown
+    /// </summary>
+    public static readonly Error Unknown = new("Unknown", "An unknown error occurred");
+    /// <summary>
     /// A default empty error
     /// </summary>
     public static readonly Error None = new(string.Empty, string.Empty);
