@@ -46,7 +46,7 @@ steps:
       versionSpec: 6.0.x
   # Get Signing Certificate
   # Signature required for test package in Release mode.  Disable by running in Debug/Mock, or otherwise amend project to ignore signature file unless provided.  
-  - ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/release')) }}:
+  - ${{ if or(eq(variables['Build.SourceBranch'], 'refs/heads/main'),eq(variables['Build.SourceBranch'], 'refs/heads/release')) }}:
     - template:  Package/JobSigning.yml@templates
       parameters: 
         CertificateName: 'Digital Caesar LLC.snk'
