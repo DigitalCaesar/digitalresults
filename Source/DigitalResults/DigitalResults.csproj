@@ -32,7 +32,7 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Package Settings">
-    <PackageId>DigitalCaesarFramework.Results</PackageId>
+    <PackageId>DigitalCaesar.Results</PackageId>
     <Title>Digital Results</Title>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
@@ -40,17 +40,18 @@
     <Description>A library for a union return type that allows for a method to return either a value or error without breaking.</Description>
     <Authors>Eric A DeCesare</Authors>
     <Company>Digital Caesar LLC</Company>
-    <Product>Digital Caesar - Domain Framework</Product>
+    <Product>Digital Caesar - Digital Results</Product>
     <Copyright>Copyright © $(CopyrightYears) Digital Caesar LLC.  All rights reserved.</Copyright>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageTags>Digital Caesar DigitalCaesar Framework Domain Driven Design Results</PackageTags>
+    <PackageTags>Digital Caesar DigitalCaesar Framework Domain Driven Design Results Values Errors</PackageTags>
     <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/Properties/ReleaseNotes.md"))</PackageReleaseNotes>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\Packages</PackageOutputPath>
-    <PackageProjectUrl>https://www.digitalcaesar.com/products/digital-caesar-framework/</PackageProjectUrl>
+    <PackageProjectUrl>https://digitalcaesar.com/products/digital-results/</PackageProjectUrl>
     <PackageLicenseFile>licenses\License.txt</PackageLicenseFile>
     <PackageIcon>images\icon.png</PackageIcon>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/DigitalCaesar/digitalresults</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Label="Debug All" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
