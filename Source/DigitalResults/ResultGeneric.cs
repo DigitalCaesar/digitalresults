@@ -68,6 +68,14 @@ public class Result<T> : Result
     /// Implicit operator encapsulates a value into a successful result
     /// </summary>
     /// <param name="error">the error to return</param>
+    public static implicit operator Result<T>(Exception exception)
+    {
+        return new(false, new(new ExceptionError(exception)));
+    }
+    /// <summary>
+    /// Implicit operator encapsulates a value into a successful result
+    /// </summary>
+    /// <param name="error">the error to return</param>
     public static implicit operator Result<T>(Error error)
     {
         return new(false, new(error));
@@ -79,5 +87,14 @@ public class Result<T> : Result
     public static implicit operator Result<T>(ErrorCollection errors)
     {
         return new(false, errors);
+    }
+
+    /// <summary>
+    /// Implicit operator encapsulates a value into a successful result
+    /// </summary>
+    /// <param name="success">the value to return</param>
+    public static implicit operator Result<T>(bool success)
+    {
+        return new(success, new());
     }
 }
