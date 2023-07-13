@@ -26,6 +26,9 @@ pool:
   demands: agent.os -equals Windows_NT
     
 steps:
+  # Force a full history checkout to allow the build script to determine the version number
+  - checkout: self
+    fetchDepth: 0
   # Setup NetCore SDK
   - task: UseDotNet@2
     displayName: 'Install .NET Core SDK'
