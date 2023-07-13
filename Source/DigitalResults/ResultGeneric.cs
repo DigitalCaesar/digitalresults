@@ -5,10 +5,21 @@ namespace DigitalCaesar.Results;
 /// <summary>
 /// Allows a method to return a result indicating success or failure where the operation may produce an error and or a value
 /// </summary>
-public class Result<T> : Result
+public class Result<T> : IValueResult<T>
 {
+    private readonly ErrorCollection mErrors;
     private readonly T? mValue;
 
+    /// <summary>
+    /// Indicates success of the operation that returned the result
+    /// </summary>
+    public bool Successful { get; private set; }
+    /// <summary>
+    /// Indicates an error that occured during the operation
+    /// </summary>
+    internal ErrorCollection Errors => !Successful
+        ? mErrors
+        : throw InvalidResultStateException.ValueException;
     /// <summary>
     /// The value of a successful result
     /// </summary>
@@ -23,38 +34,75 @@ public class Result<T> : Result
     /// <param name="errors">Indicates the errors that occured</param>
     /// <param name="value">The value, if available, or null if errored</param>
     protected internal Result(bool successful, ErrorCollection errors, T? value = default)
-        : base(successful, errors)
     {
+        // This condition should not happen unless a new factory method is constructed incorrectly
+        if (successful && !errors.IsEmpty)
+            throw InvalidResultStateException.SuccessException;
+
+        // This condition should not happen unless a new factory method is constructed incorrectly
+        if (!successful && errors.IsEmpty)
+            throw InvalidResultStateException.FailureException;
+
+        Successful = successful;
+        mErrors = errors;
         mValue = value;
     }
 
     /// <summary>
-    /// Allows a different function to be executed based on the state of the Result
+    /// Switches between Actions dependent on the state of the Result
     /// </summary>
-    /// <param name="onValue">The function to execute if successful</param>
-    /// <param name="onError">The function to execute if failed</param>
-    public void Switch(Action<T> onValue, Action<ErrorCollection> onError)
+    /// <param name="onSuccess">the Action to execute if the Result is in a success state</param>
+    /// <param name="onFailure">the Action to execute if the Result is in a failure state</param>
+    public void Switch(Action onSuccess, Action<ErrorCollection> onFailure)
     {
         if (!Successful)
         {
-            onError(Errors);
+            onFailure(Errors);
             return;
         }
 
-        onValue(Value!);
+        onSuccess();
     }
 
     /// <summary>
-    /// Allows a different value to be returned based on the state of the Result
+    /// Switches between Actions dependent on the state of the Result
+    /// </summary>
+    /// <param name="onSuccess">the Action to execute if the Result is in a success state</param>
+    /// <param name="onFailure">the Action to execute if the Result is in a failure state</param>
+    public void Switch(Action<T> onSuccess, Action<ErrorCollection> onFailure)
+    {
+        if (!Successful)
+        {
+            onFailure(Errors);
+            return;
+        }
+
+        onSuccess(Value!);
+    }
+
+
+    /// <summary>
+    /// Matches the appropriate response based on the state of the Result
     /// </summary>
     /// <typeparam name="R">The type of value to return</typeparam>
-    /// <param name="success">the function to execute if the Result is in a success state</param>
-    /// <param name="failure">the function to execute if the Result is in a failure state</param>
+    /// <param name="onSuccess">the function to execute if the Result is in a success state</param>
+    /// <param name="onFailure">the function to execute if the Result is in a failure state</param>
     /// <returns>Either a Value if successful or an collection of Errors if failed</returns>
     public R Match<R>(
-                Func<T, R> success,
-                Func<ErrorCollection, R> failure) =>
-            Successful ? success(Value!) : failure(Errors);
+                Func<R> onSuccess,
+                Func<ErrorCollection, R> onFailure) =>
+            Successful ? onSuccess() : onFailure(Errors);
+    /// <summary>
+    /// Matches the appropriate response based on the state of the Result
+    /// </summary>
+    /// <typeparam name="R">The type of value to return</typeparam>
+    /// <param name="onSuccess">the function to execute if the Result is in a success state</param>
+    /// <param name="onFailure">the function to execute if the Result is in a failure state</param>
+    /// <returns>Either a Value if successful or an collection of Errors if failed</returns>
+    public R Match<R>(
+                Func<T, R> onSuccess,
+                Func<ErrorCollection, R> onFailure) =>
+            Successful ? onSuccess(Value!) : onFailure(Errors);
 
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result
@@ -65,9 +113,17 @@ public class Result<T> : Result
         return new(true, new(), value);
     }
     /// <summary>
+    /// Implicit operator converts an Exception to an Error and encapsulates it into a failed result
+    /// </summary>
+    /// <param name="exception">the Exception to convert</param>
+    public static implicit operator Result<T>(Exception exception)
+    {
+        return new(false, new(new ExceptionError(exception)));
+    }
+    /// <summary>
     /// Implicit operator encapsulates a value into a successful result
     /// </summary>
-    /// <param name="error">the error to return</param>
+    /// <param name="error">the error to convert</param>
     public static implicit operator Result<T>(Error error)
     {
         return new(false, new(error));
@@ -75,9 +131,26 @@ public class Result<T> : Result
     /// <summary>
     /// Implicit operator encapsulates a value into a successful result
     /// </summary>
-    /// <param name="errors">the errors to return</param>
+    /// <param name="errors">the errors to convert</param>
     public static implicit operator Result<T>(ErrorCollection errors)
     {
         return new(false, errors);
+    }
+
+    /// <summary>
+    /// Implicit operator encapsulates a value into a successful result
+    /// </summary>
+    /// <param name="success">the value to convert</param>
+    public static implicit operator Result<T>(bool success)
+    {
+        return new(success, new());
+    }
+    /// <summary>
+    /// Implicit operator converts a Result<typeparamref name="T"/> to a Result
+    /// </summary>
+    /// <param name="result">the result to convert</param>
+    public static implicit operator Result(Result<T> result)
+    {
+        return new(result.Successful, result.mErrors);
     }
 }

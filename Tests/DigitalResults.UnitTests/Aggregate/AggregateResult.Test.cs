@@ -93,7 +93,7 @@ public class AggregateResult_Test
     public void GetSuccessStatus_Test(List<Result> testResults, bool expectedSuccessful)
     {
         // Arrange
-        AggregateResult TestObject = new AggregateResult(testResults);
+        AggregateResult TestObject = new(testResults);
 
         // Act
         bool result = TestObject.GetSuccessStatus();
@@ -106,7 +106,7 @@ public class AggregateResult_Test
     public void GetErrors_Test(List<Result> testResults, ErrorCollection expectedValue)
     {
         // Arrange
-        AggregateResult TestObject = new AggregateResult(testResults);
+        AggregateResult TestObject = new(testResults);
 
         // Act
         var result = TestObject.GetErrors();
@@ -121,7 +121,7 @@ public class AggregateResult_Test
     public void AddResult_Test(List<Result> testResults, Result newResult, int expectedResultCount, int expectedErrorCount, bool expectedSuccessful)
     {
         // Arrange
-        AggregateResult TestObject = new AggregateResult(testResults);
+        AggregateResult TestObject = new(testResults);
 
         // Act
         TestObject.Add(newResult);
