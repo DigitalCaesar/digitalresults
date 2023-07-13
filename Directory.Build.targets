@@ -1,0 +1,16 @@
+<Project>
+
+  <PropertyGroup>
+    <CommonTags Condition="$(IsCoreProject)">$(CommonTags)</CommonTags>
+    <PackageTags Condition="'$(PackageTags)' != ''">$(CommonTags);$(PackageTags)</PackageTags>
+    <PackageTags Condition="'$(PackageTags)' == ''">$(CommonTags)</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(IsPackable)">
+    <None Include="$(RepositoryDirectory)\License.md" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="licenses" />
+    <None Include="Properties\icon.png" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="images" />
+    <None Include="Properties\Readme.md" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="\" />
+    <None Include="$(RepositoryDirectory)ThirdPartyNotices.txt" Pack="true" PackagePath="\" Visible="False" />
+  </ItemGroup>
+
+</Project>

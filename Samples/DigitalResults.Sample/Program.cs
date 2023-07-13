@@ -1,29 +1,37 @@
-﻿// See https://aka.ms/new-console-template for more information
-using DigitalCaesar.Results;
+﻿using DigitalCaesar.Results;
 using DigitalCaesar.Results.Sample;
 
 
 // Without a match, you are required to test the outcome before using the value?
+Console.WriteLine("Simple Result test with no value");
+Console.WriteLine("--------------------------------------------------");
 Result SimpleResult;
+Console.WriteLine("Test Success");
 SimpleResult = SampleObject.GetSimpleResult(TestCase.DoSomethingThatWorks);
 PrintSample.PrintResult(TestCase.DoSomethingThatWorks, SimpleResult);
-
+Console.WriteLine("Test Failure");
 SimpleResult = SampleObject.GetSimpleResult(TestCase.DoSomethingThatFails);
 PrintSample.PrintResult(TestCase.DoSomethingThatFails, SimpleResult);
 
 // INT test
+Console.WriteLine("Simple Result test with int value");
+Console.WriteLine("--------------------------------------------------");
 Result<int> IntResult;
+Console.WriteLine("Test Success");
 IntResult = SampleObject.GetIntResult(TestCase.DoSomethingThatWorks);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatWorks, IntResult);
-
+Console.WriteLine("Test Failure");
 IntResult = SampleObject.GetIntResult(TestCase.DoSomethingThatFails);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatFails, IntResult);
 
 // STRING test
+Console.WriteLine("Simple Result test with string value");
+Console.WriteLine("--------------------------------------------------");
 Result<string> StringResult;
+Console.WriteLine("Test Success");
 StringResult = SampleObject.GetStringResult(TestCase.DoSomethingThatWorks);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatWorks, StringResult);
-
+Console.WriteLine("Test Failure");
 StringResult = SampleObject.GetStringResult(TestCase.DoSomethingThatFails);
 PrintSample.PrintActionResult(TestCase.DoSomethingThatFails, StringResult);
 
@@ -46,7 +54,7 @@ void TraditionalResult(int sum, int count)
 {
     try
     {
-        var result = GetAverage(sum, count);
+        decimal result = GetAverage(sum, count);
         Console.WriteLine($"The average is {result}");
     }
     catch (Exception ex)
@@ -54,13 +62,6 @@ void TraditionalResult(int sum, int count)
         Console.WriteLine("Failed to calculate the average due to {0}", ex.Message);
     }
 }
-
-
-
-
-
-
-
 
 // MatchedResult Example
 Console.WriteLine("SwitchedResult Example");
@@ -85,7 +86,7 @@ Result<decimal> GetAverageAsResult(int sum, int count)
 void MatchedResult(int sum, int count)
 {
     var result = GetAverageAsResult(sum, count);
-    var message = result.Match(
+    string message = result.Match(
         success => $"The average is {success}",
         failure => $"Failed to calculate the average due to {failure[0].Description}."
     );
@@ -104,22 +105,6 @@ SwitchedResult(0, 0);  // Error:DivideByZeroException
 SwitchedResult(10, 0); // Error:DivideByZeroException
 
 
-Result<decimal> GetValidatedAverageAsResult(int sum, int count)
-{
-    if (count <= 0)
-        return new Error("Bad Count", $"The count '{count}' must be greater than 0");
-    if (count > 100)
-        return new Error("Bad Count", $"The count '{count}' must be less than 100");
-
-    try
-    {
-        return (decimal)sum / (decimal)count;
-    }
-    catch (Exception ex)
-    {
-        return ex;
-    }
-}
 void SwitchedResult(int sum, int count)
 {
     var result = GetAverageAsResult(sum, count);
