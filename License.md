@@ -1,6 +1,12 @@
-MIT License
+# Digital Results
 
-Copyright (c) [year] [fullname]
+Copyright (c) Digital Caesar LLC
+
+All rights reserved.
+
+
+## MIT License
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

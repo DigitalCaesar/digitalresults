@@ -72,6 +72,8 @@ Testing is provided by Unit Test and Integration Test projects which are require
 ### Release 
 Release Pipelines are defined on Azure Devops.  Only main and release branch updates trigger releases.  Pre-Release distribution is triggered by release branch updates.  Production distribution is triggered by main branch updates.  Releases are first pushed to an internal store pending approval for public release.
 
+Versions from a release branch will have a '-preview' suffix added.  Versions from main will have no suffix.  Versioning is handled by Nerdbank.GitVersioning.  See their documentation for more information.
+
 ## Credits
 There are currently no third party package dependencies.
 

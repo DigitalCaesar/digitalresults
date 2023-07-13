@@ -1,70 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
+  <PropertyGroup Label="Targets">
     <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
-
-
-  <PropertyGroup Label="Language Options">
-    <LangVersion>latest</LangVersion>
-    <NullableReferenceTypes>true</NullableReferenceTypes>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Versioning">
-    <Version>1.0.0</Version>
-    <VersionBuildRevision>0</VersionBuildRevision>
-    <AssemblyVersion>$(Version).$(VersionBuildRevision)</AssemblyVersion>
-    <AssemblyFileVersion>$(Version).$(VersionBuildRevision)</AssemblyFileVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <CopyrightStartYear>2022</CopyrightStartYear>
-    <RootNamespace>DigitalCaesar.Results</RootNamespace>
-  </PropertyGroup>
-  <PropertyGroup Condition="$([System.DateTime]::Now.ToString('yyyy')) == $(CopyrightStartYear)">
-    <CopyrightYears>$(CopyrightStartYear)</CopyrightYears>
-  </PropertyGroup>
-  <PropertyGroup Condition="$([System.DateTime]::Now.ToString('yyyy')) != CopyrightStartYear">
-    <CopyrightYears>$(CopyrightStartYear) - $([System.DateTime]::Now.ToString('yyyy'))</CopyrightYears>
   </PropertyGroup>
 
   <PropertyGroup Label="Package Settings">
     <PackageId>DigitalResults</PackageId>
     <Title>Digital Results</Title>
-    <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
     <Summary>Union Results for Values and Errors</Summary>
     <Description>A library for a union return type that allows for a method to return either a value or error without breaking.</Description>
-    <Authors>Eric A DeCesare</Authors>
-    <Company>Digital Caesar LLC</Company>
-    <Product>Digital Caesar - Digital Results</Product>
-    <Copyright>Copyright © $(CopyrightYears) Digital Caesar LLC.  All rights reserved.</Copyright>
-    <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>Digital Caesar DigitalCaesar Framework Domain Driven Design Results Values Errors</PackageTags>
-    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/Properties/ReleaseNotes.md"))</PackageReleaseNotes>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)bin\Packages</PackageOutputPath>
-    <PackageProjectUrl>https://digitalcaesar.com/products/digital-results/</PackageProjectUrl>
-    <PackageLicenseFile>licenses\License.txt</PackageLicenseFile>
-    <PackageIcon>images\icon.png</PackageIcon>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReadmeFile>Readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/DigitalCaesar/digitalresults</RepositoryUrl>
-    <IncludeSymbols>True</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Debug All" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <VersionSuffix>-pre</VersionSuffix>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Label="Release All" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>portable</DebugType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <Optimize>true</Optimize>
@@ -74,11 +24,11 @@
     <AssemblyOriginatorKeyFile>..\..\Digital Caesar LLC.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <None Include="Properties\License.txt" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="licenses" />
-    <None Include="Properties\icon.png" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="images" />
-    <None Include="Properties\Readme.md" Pack="true" PackageCopyToOutput="true" PackageFlatten="false" PackagePath="\" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
