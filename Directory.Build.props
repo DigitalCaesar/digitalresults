@@ -20,6 +20,14 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
+  <PropertyGroup Label="Version">
+    <VersionPrefix>1.0.14</VersionPrefix>
+    <BuildId>0</BuildId>
+    <!--<VersionSuffix>alpha</VersionSuffix>-->
+    <AssemblyVersion>$(VersionPrefix).$(BuildId)</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).$(BuildId)</FileVersion>
+  </PropertyGroup>
+
   <PropertyGroup Label="Package Settings">
     <Authors>Eric A DeCesare</Authors>
     <Company>Digital Caesar LLC</Company>

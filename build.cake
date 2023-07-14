@@ -1,4 +1,3 @@
-#addin nuget:?package=Cake.GitVersioning&version=3.6.133
 #addin nuget:?package=Cake.Coverlet&version=3.0.4
 #addin nuget:?package=Cake.AzureDevOps&version=3.0.0
 #tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.1.19
@@ -8,7 +7,7 @@ string branchName = Argument("branchName", "local");
 
 var target = Argument("target", "Default");
 
-string buildId = "0";
+string buildId = "1230";
 bool IsRelease = false;
 string versionSuffix = "-local";
 string configuration = "Debug";
@@ -28,18 +27,22 @@ switch(branchName) {
     case "main":
         IsRelease = true;
         configuration = "Release";
+        versionSuffix = $"";
         break;
     case "release":
         IsRelease = true;
         configuration = "Release";
+        versionSuffix = $"prerelease";
         break;
     case "develop":
         IsRelease = false;
         configuration = "Debug";
+        versionSuffix = $"alpha";
         break;
     default:
         IsRelease = false;
         configuration = "Debug";
+        versionSuffix = $"local";
         break;
 }
 
@@ -49,7 +52,7 @@ Task("Setup")
     Information($"Branch Name is   {branchName}");
     Information($"Solution is      {solution}");
     Information($"Configuration is {configuration}");
-    Information($"Version is       {GitVersioningGetVersion().SemVer2}");
+    Information($"Version is       Local{versionSuffix}");
   });
 
 Task("Clean")
@@ -61,6 +64,7 @@ Task("Clean")
             Configuration = configuration
         }
     );
+    CleanDirectory($"{ARTIFACT_OUTPUT_DIR}");
   });
 
 Task("Restore")
@@ -86,20 +90,21 @@ Task("Build")
     .Does(() => {
         GetFiles("./**/**/*.csproj").ToList().ForEach(project => {
             string projectFileName = project.ToString();
-            Information($"Building {projectFileName} in {branchName} with version {GitVersioningGetVersion().SemVer2}.");
+            Information($"Building {projectFileName} in {branchName}.");
             DotNetMSBuildSettings buildSettings = new DotNetMSBuildSettings {
                 Verbosity = DotNetVerbosity.Minimal, 
                 ContinuousIntegrationBuild = true,
-                ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
+                ArgumentCustomization = args=>args.Append($"/p:Deterministic=true /p:BuildId={buildId}")
             };
             
             if(branchName != "main")
                 buildSettings.VersionSuffix = versionSuffix;
                         
             DotNetBuild(
-                projectFileName, 
+                projectFileName,
                 new DotNetBuildSettings {
-                    Configuration = configuration,
+                    Configuration = configuration, 
+                    VersionSuffix = versionSuffix,
                     NoRestore = true,
                     MSBuildSettings = buildSettings
                 }
@@ -187,15 +192,13 @@ Task("Pack")
   .Does(() => {
     GetFiles("./**/**/*.csproj").ToList().ForEach(project => {
         var projectFileName = project.ToString();
-        Information($"Packing {projectFileName} with version {GitVersioningGetVersion().SemVer2}");
+        Information($"Packing {projectFileName}");
         
         DotNetMSBuildSettings buildSettings = new DotNetMSBuildSettings {
             Verbosity = DotNetVerbosity.Minimal, 
             ContinuousIntegrationBuild = true,
-            ArgumentCustomization = args=>args.Append("/p:Deterministic=true")
+            ArgumentCustomization = args=>args.Append($"/p:Deterministic=true /p:BuildId={buildId}")
         };
-        if(branchName != "main")
-            buildSettings.VersionSuffix = versionSuffix;
 
         DotNetPack(
             projectFileName, 
