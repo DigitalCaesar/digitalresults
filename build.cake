@@ -7,7 +7,7 @@ string branchName = Argument("branchName", "local");
 
 var target = Argument("target", "Default");
 
-string buildId = "1230";
+string buildId = "0";
 bool IsRelease = false;
 string versionSuffix = "-local";
 string configuration = "Debug";
@@ -32,27 +32,30 @@ switch(branchName) {
     case "release":
         IsRelease = true;
         configuration = "Release";
-        versionSuffix = $"prerelease";
+        versionSuffix = $"prerelease.{buildId}";
         break;
     case "develop":
         IsRelease = false;
         configuration = "Debug";
-        versionSuffix = $"alpha";
+        versionSuffix = $"alpha.{buildId}";
         break;
     default:
         IsRelease = false;
         configuration = "Debug";
-        versionSuffix = $"local";
+        versionSuffix = $"local.{buildId}";
         break;
 }
 
 Task("Setup")
   .Does(() => {
-    Information($"Target is        {target}");
-    Information($"Branch Name is   {branchName}");
-    Information($"Solution is      {solution}");
-    Information($"Configuration is {configuration}");
-    Information($"Version is       Local{versionSuffix}");
+    Information($"Target is         {target}");
+    Information($"Solution is       {solution}");
+    Information($"Branch Name is    {branchName}");
+    Information($"Solution is       {solution}");
+    Information($"Configuration is  {configuration}");
+    Information($"Version Suffix is {versionSuffix}");
+    Information($"Build Id is       {buildId}");
+    Information($"Is a Release      {IsRelease}");
   });
 
 Task("Clean")
